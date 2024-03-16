@@ -1,0 +1,42 @@
+//
+//  SchoolInfoService.swift
+//  Meals
+//
+//  Created by 진현식 on 3/16/24.
+//
+
+import Foundation
+
+struct SchoolInfoService {
+    
+    static let shared = SchoolInfoService()
+    
+    let rootUrlString = "https://open.neis.go.kr/hub/schoolInfo?Type=json"
+    
+    func getSchoolInfo(withSchoolName schoolName: String, completion: @escaping (School?) -> Void) {
+        let urlString = rootUrlString + "&SCHUL_NM=\(schoolName)"
+        guard let url = URL(string: urlString) else { return }
+        
+        let session = URLSession(configuration: .default)
+        let request = URLRequest(url: url)
+        session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            if let data = data {
+                do {
+                    let schoolInfoResponse = try JSONDecoder().decode(SchoolResponce.self, from: data)
+                    
+                    if let school = schoolInfoResponse.schoolInfo.last?.row?.first {
+                        completion(school)
+                    }
+                    
+                } catch {
+                    print("Error parsing JSON: \(error.localizedDescription)")
+                }
+            }
+        }.resume()
+    }
+}

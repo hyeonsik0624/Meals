@@ -11,7 +11,15 @@ class HomeController: UIViewController {
     
     // MARK: - Properties
     
-    var viewModel = HomeViewModel()
+    private var viewModel = HomeViewModel()
+    
+    private var school: School? {
+        didSet { getMeal() }
+    }
+    
+    private var meal: Meal? {
+        didSet { print(meal) }
+    }
     
     private lazy var mealView: MealView = {
         let frame = CGRect(x: 0, y: 0, width: 300, height: 300)
@@ -25,9 +33,31 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureUI()
+        getSchoolInfo()
     }
     
     // MARK: - Actions
+    
+    // MARK: - API
+    
+    func getSchoolInfo() {
+        SchoolInfoService.shared.getSchoolInfo(withSchoolName: "횡성고등학교") { school in
+            self.school = school
+        }
+    }
+    
+    func getMeal() {
+        guard let school = school else { return }
+        
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let today = dateFormatter.string(from: date)
+        
+        MealService.shared.getMeal(withSchoolInfo: school, date: "20240319") { meal in
+            self.meal = meal
+        }
+    }
     
     // MARK: - Helpers
     
