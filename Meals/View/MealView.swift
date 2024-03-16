@@ -18,11 +18,12 @@ class MealView: UIView {
     private lazy var backgroundView: UIView = {
         let view = UIView()
         
-        view.backgroundColor = UIColor(white: 0.8, alpha: 1)
+        view.backgroundColor = UIColor(white: 0.8, alpha: 0.8)
         view.layer.cornerRadius = 12
         
         view.addSubview(dishesLabel)
-        dishesLabel.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 10, paddingRight: 10)
+        dishesLabel.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor,
+                           paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         dishesLabel.centerY(inView: view)
         
         return view
@@ -45,6 +46,7 @@ class MealView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
+        updateDishes()
     }
     
     required init?(coder: NSCoder) {

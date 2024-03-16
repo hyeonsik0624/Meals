@@ -35,16 +35,26 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureUI()
-        getSchoolInfo()
     }
     
     // MARK: - Actions
     
+    @objc func settingsButtonTapped() {
+        let controller = SettingsController()
+        controller.delegate = self
+        controller.school = self.school
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        
+        present(nav, animated: true)
+    }
+    
     // MARK: - API
     
     func getSchoolInfo() {
-        SchoolInfoService.shared.getSchoolInfo(withSchoolName: "횡성고등학교") { school in
-            self.school = school
+        SchoolInfoService.shared.getSchools(withSchoolName: "횡성") { schools in
+            print(schools)
+            self.school = schools.first
         }
     }
     
@@ -56,7 +66,7 @@ class HomeController: UIViewController {
         dateFormatter.dateFormat = "yyyyMMdd"
         let today = dateFormatter.string(from: date)
         
-        MealService.shared.getMeal(withSchoolInfo: school, date: today) { meal in
+        MealService.shared.getMeal(withSchoolInfo: school, date: "20240315") { meal in
             self.meal = meal
         }
     }
@@ -74,5 +84,16 @@ class HomeController: UIViewController {
     func configureNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = viewModel.getCurrentDateString()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingsButtonTapped))
+    }
+}
+
+// MARK: - SettingsControllerDelegate
+
+extension HomeController: SettingsControllerDelegate {
+    func handleDismissal(_ controller: SettingsController) {
+        controller.dismiss(animated: true)
+        self.school = controller.school
     }
 }

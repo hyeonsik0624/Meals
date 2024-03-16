@@ -13,7 +13,9 @@ struct SchoolInfoService {
     
     let rootUrlString = "https://open.neis.go.kr/hub/schoolInfo?Type=json"
     
-    func getSchoolInfo(withSchoolName schoolName: String, completion: @escaping (School?) -> Void) {
+    func getSchools(withSchoolName schoolName: String, completion: @escaping ([School]) -> Void) {
+        var schools = [School]()
+        
         let urlString = rootUrlString + "&SCHUL_NM=\(schoolName)"
         guard let url = URL(string: urlString) else { return }
         
@@ -29,13 +31,12 @@ struct SchoolInfoService {
                 do {
                     let schoolInfoResponse = try JSONDecoder().decode(SchoolResponce.self, from: data)
                     
-                    if let school = schoolInfoResponse.schoolInfo.last?.row?.first {
-                        completion(school)
+                    if let school = schoolInfoResponse.schoolInfo.last?.row {
+                        schools.append(contentsOf: school)
+                        completion(schools)
                     }
-                    
                 } catch {
-                    print("Error parsing JSON: \(error.localizedDescription)")
-                    completion(nil)
+                    completion(schools)
                 }
             }
         }.resume()

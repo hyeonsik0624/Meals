@@ -30,7 +30,6 @@ struct MealService {
                     let meal = response.mealInfo.last?.row?.first
                     completion(meal)
                 } catch {
-                    print("Error JSON parsing: \(error.localizedDescription)")
                     completion(nil)
                 }
             }

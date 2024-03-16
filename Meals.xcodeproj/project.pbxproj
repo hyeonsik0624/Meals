@@ -21,6 +21,8 @@
 		B52804A72BA4A0F200C5E430 /* APIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804A62BA4A0F200C5E430 /* APIConfig.swift */; };
 		B52804A92BA4A2A700C5E430 /* SchoolInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804A82BA4A2A700C5E430 /* SchoolInfoService.swift */; };
 		B52804AB2BA4A34600C5E430 /* School.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804AA2BA4A34600C5E430 /* School.swift */; };
+		B52804AD2BA5781300C5E430 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804AC2BA5781300C5E430 /* SettingsController.swift */; };
+		B52804AF2BA5B51C00C5E430 /* SchoolSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804AE2BA5B51C00C5E430 /* SchoolSearchController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		B52804A62BA4A0F200C5E430 /* APIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfig.swift; sourceTree = "<group>"; };
 		B52804A82BA4A2A700C5E430 /* SchoolInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolInfoService.swift; sourceTree = "<group>"; };
 		B52804AA2BA4A34600C5E430 /* School.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = School.swift; sourceTree = "<group>"; };
+		B52804AC2BA5781300C5E430 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		B52804AE2BA5B51C00C5E430 /* SchoolSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSearchController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				B52804982BA481B400C5E430 /* HomeController.swift */,
+				B52804AC2BA5781300C5E430 /* SettingsController.swift */,
+				B52804AE2BA5B51C00C5E430 /* SchoolSearchController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -210,12 +216,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B52804AD2BA5781300C5E430 /* SettingsController.swift in Sources */,
 				B528049D2BA4834900C5E430 /* Meal.swift in Sources */,
 				B528047F2BA47BAA00C5E430 /* AppDelegate.swift in Sources */,
 				B52804A12BA488C600C5E430 /* HomeViewModel.swift in Sources */,
 				B52804A32BA48B4900C5E430 /* Extensions.swift in Sources */,
 				B528049F2BA4841C00C5E430 /* MealService.swift in Sources */,
 				B52804A92BA4A2A700C5E430 /* SchoolInfoService.swift in Sources */,
+				B52804AF2BA5B51C00C5E430 /* SchoolSearchController.swift in Sources */,
 				B52804A72BA4A0F200C5E430 /* APIConfig.swift in Sources */,
 				B52804812BA47BAA00C5E430 /* SceneDelegate.swift in Sources */,
 				B52804AB2BA4A34600C5E430 /* School.swift in Sources */,
