@@ -18,7 +18,9 @@ class HomeController: UIViewController {
     }
     
     private var meal: Meal? {
-        didSet { print(meal) }
+        didSet {
+            mealView.meal = meal
+        }
     }
     
     private lazy var mealView: MealView = {
@@ -54,7 +56,7 @@ class HomeController: UIViewController {
         dateFormatter.dateFormat = "yyyyMMdd"
         let today = dateFormatter.string(from: date)
         
-        MealService.shared.getMeal(withSchoolInfo: school, date: "20240319") { meal in
+        MealService.shared.getMeal(withSchoolInfo: school, date: today) { meal in
             self.meal = meal
         }
     }

@@ -11,6 +11,10 @@ class MealView: UIView {
     
     // MARK: - Properties
     
+    var meal: Meal? {
+        didSet { updateDishes() }
+    }
+    
     private lazy var backgroundView: UIView = {
         let view = UIView()
         
@@ -27,11 +31,10 @@ class MealView: UIView {
     private lazy var dishesLabel: UILabel = {
         let label = UILabel()
         
-        label.text = "고등어조림\n된장국\n스팸마요덮밥\n제육볶음\n요구르트\n사과"
         label.textAlignment = .center
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.boldSystemFont(ofSize: 36)
+        label.font = UIFont.boldSystemFont(ofSize: 32)
         label.textColor = .black
         
         return label
@@ -41,15 +44,32 @@ class MealView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        addSubview(backgroundView)
-        backgroundView.setDimension(width: 320, height: 320)
-        backgroundView.centerX(inView: self)
-        backgroundView.centerY(inView: self)
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Helpers
+    
+    func configureUI() {
+        addSubview(backgroundView)
+        backgroundView.setDimension(width: 320, height: 320)
+        backgroundView.centerX(inView: self)
+        backgroundView.centerY(inView: self)
+    }
+    
+    func updateDishes() {
+        guard let dishes = meal?.dishes else {
+            DispatchQueue.main.async {
+                self.dishesLabel.text = "급식 정보가 없습니다."
+            }
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.dishesLabel.text = dishes
+        }
+    }
 }

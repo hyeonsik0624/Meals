@@ -35,6 +35,7 @@ struct SchoolInfoService {
                     
                 } catch {
                     print("Error parsing JSON: \(error.localizedDescription)")
+                    completion(nil)
                 }
             }
         }.resume()

@@ -31,6 +31,7 @@ struct MealService {
                     completion(meal)
                 } catch {
                     print("Error JSON parsing: \(error.localizedDescription)")
+                    completion(nil)
                 }
             }
         }.resume()
