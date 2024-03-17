@@ -18,7 +18,7 @@ class MealView: UIView {
     private lazy var backgroundView: UIView = {
         let view = UIView()
         
-        view.backgroundColor = UIColor(white: 0.8, alpha: 0.8)
+        view.backgroundColor = UIColor(named: "MealViewBackgroundColor")
         view.layer.cornerRadius = 12
         
         view.addSubview(dishesLabel)
@@ -31,13 +31,11 @@ class MealView: UIView {
     
     private lazy var dishesLabel: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .center
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.font = UIFont.boldSystemFont(ofSize: 32)
-        label.textColor = .black
-        
+        label.textColor = UIColor(named: "DishesLabelColor")
         return label
     }()
     

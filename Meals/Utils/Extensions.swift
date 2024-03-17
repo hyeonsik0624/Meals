@@ -59,8 +59,14 @@ extension UIView {
         
         centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
-        if let left = left {
+        if let _ = left {
             leftAnchor.constraint(equalTo: view.leftAnchor, constant: paddingLeft).isActive = true
         }
+    }
+}
+
+extension UIColor {
+    static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
+        return UIColor(red: red / 255, green: green / 255, blue: blue / 255, alpha: 1.0)
     }
 }
