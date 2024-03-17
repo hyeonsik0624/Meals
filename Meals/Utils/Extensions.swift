@@ -15,7 +15,8 @@ extension UIView {
                 paddingTop: CGFloat = 0,
                 paddingLeft: CGFloat = 0,
                 paddingBottom: CGFloat = 0,
-                paddingRight: CGFloat = 0) {
+                paddingRight: CGFloat = 0,
+                height: CGFloat = 0) {
         
         translatesAutoresizingMaskIntoConstraints = false
         
@@ -34,6 +35,8 @@ extension UIView {
         if let right = right {
             rightAnchor.constraint(equalTo: right, constant: -paddingRight).isActive = true
         }
+        
+        heightAnchor.constraint(equalToConstant: height).isActive = true
     }
     
     func setDimension(width: CGFloat, height: CGFloat) {
@@ -47,11 +50,17 @@ extension UIView {
         translatesAutoresizingMaskIntoConstraints = false
         
         centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        
     }
     
-    func centerY(inView view: UIView) {
+    func centerY(inView view: UIView, left: NSLayoutXAxisAnchor? = nil, paddingLeft: CGFloat = 0) {
         translatesAutoresizingMaskIntoConstraints = false
         
         centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        if let left = left {
+            leftAnchor.constraint(equalTo: view.leftAnchor, constant: paddingLeft).isActive = true
+        }
     }
 }

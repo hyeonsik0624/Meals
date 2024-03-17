@@ -34,7 +34,15 @@ class SettingsController: UITableViewController {
     // MARK: - Actions
     
     @objc func handleDone() {
+        saveSchoolInfo()
         delegate?.handleDismissal(self)
+    }
+    
+    // MARK: - API
+    
+    func saveSchoolInfo() {
+        guard let school = school else { return }
+        UserDefaults.standard.setValue(school.schoolCode, forKey: "schoolCode")
     }
     
     // MARK: - Helpers

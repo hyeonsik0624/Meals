@@ -35,6 +35,7 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureUI()
+        loadSavedSchoolInfo()
     }
     
     // MARK: - Actions
@@ -51,13 +52,6 @@ class HomeController: UIViewController {
     
     // MARK: - API
     
-    func getSchoolInfo() {
-        SchoolInfoService.shared.getSchools(withSchoolName: "횡성") { schools in
-            print(schools)
-            self.school = schools.first
-        }
-    }
-    
     func getMeal() {
         guard let school = school else { return }
         
@@ -68,6 +62,22 @@ class HomeController: UIViewController {
         
         MealService.shared.getMeal(withSchoolInfo: school, date: "20240315") { meal in
             self.meal = meal
+        }
+    }
+    
+    func loadSavedSchoolInfo() {
+        guard let schoolCode = UserDefaults.standard.string(forKey: "schoolCode") else {
+            let controller = SchoolSettingsController()
+            controller.delegate = self
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true)
+            
+            return
+        }
+    
+        SchoolInfoService.shared.getSchool(withSchoolCode: schoolCode) { school in
+            self.school = school
         }
     }
     
@@ -95,5 +105,11 @@ extension HomeController: SettingsControllerDelegate {
     func handleDismissal(_ controller: SettingsController) {
         controller.dismiss(animated: true)
         self.school = controller.school
+    }
+}
+
+extension HomeController: SchoolSettingsControllerDelegate {
+    func didSetUpSchool(withSchool school: School) {
+        self.school = school
     }
 }
