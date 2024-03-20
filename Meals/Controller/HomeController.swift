@@ -35,6 +35,9 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         loadSavedSchoolInfo()
     }
     
@@ -60,7 +63,7 @@ class HomeController: UIViewController {
         dateFormatter.dateFormat = "yyyyMMdd"
         let today = dateFormatter.string(from: date)
         
-        MealService.shared.getMeal(withSchoolInfo: school, date: "20240315") { meal in
+        MealService.shared.getMeal(withSchoolInfo: school, date: today) { meal in
             self.meal = meal
         }
     }
@@ -84,7 +87,7 @@ class HomeController: UIViewController {
     // MARK: - Helpers
     
     func configureUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .secondarySystemBackground
         
         view.addSubview(mealView)
         mealView.centerX(inView: view)

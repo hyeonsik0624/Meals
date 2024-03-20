@@ -55,7 +55,7 @@ class SchoolSettingsController: UIViewController {
     // MARK: - Helpers
     
     func configureUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .secondarySystemBackground
         
         view.addSubview(greetingLabel)
         greetingLabel.centerY(inView: view, left: view.leftAnchor, paddingLeft: 16)

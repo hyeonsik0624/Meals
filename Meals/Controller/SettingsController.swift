@@ -48,12 +48,14 @@ class SettingsController: UITableViewController {
     // MARK: - Helpers
     
     func configureUI() {
+        view.backgroundColor = .secondarySystemBackground
+        
         navigationItem.title = "설정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
     }
     
     func configureTableView() {
-        tableView.rowHeight = 60
+        tableView.rowHeight = 68
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
 }
@@ -67,9 +69,10 @@ extension SettingsController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        cell.textLabel?.text = "🏫 학교 변경하기"
+        cell.textLabel?.text = "학교 변경하기"
         cell.detailTextLabel?.text = school?.schoolName
         cell.selectionStyle = .none
+        cell.backgroundColor = .secondarySystemBackground
         return cell
     }
     

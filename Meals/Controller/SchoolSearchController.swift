@@ -39,13 +39,11 @@ class SchoolSearchController: UITableViewController {
         configureSearchController()
     }
     
-    // MARK: - Actions
-    
-    // MARK: - API
-    
     // MARK: - Helpers
     
     func configureTableView() {
+        view.backgroundColor = .secondarySystemBackground
+        
         tableView.rowHeight = 60
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
@@ -68,6 +66,7 @@ extension SchoolSearchController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        cell.backgroundColor = .secondarySystemBackground
         cell.textLabel?.text = schools[indexPath.row].schoolName
         cell.detailTextLabel?.text = schools[indexPath.row].schoolAddress
         return cell
