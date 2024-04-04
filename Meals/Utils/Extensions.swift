@@ -16,7 +16,7 @@ extension UIView {
                 paddingLeft: CGFloat = 0,
                 paddingBottom: CGFloat = 0,
                 paddingRight: CGFloat = 0,
-                height: CGFloat = 0) {
+                height: CGFloat? = nil) {
         
         translatesAutoresizingMaskIntoConstraints = false
         
@@ -36,7 +36,9 @@ extension UIView {
             rightAnchor.constraint(equalTo: right, constant: -paddingRight).isActive = true
         }
         
-        heightAnchor.constraint(equalToConstant: height).isActive = true
+        if let height = height {
+            heightAnchor.constraint(equalToConstant: height).isActive = true
+        }
     }
     
     func setDimension(width: CGFloat, height: CGFloat) {

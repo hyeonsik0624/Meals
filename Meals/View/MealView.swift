@@ -15,20 +15,6 @@ class MealView: UIView {
         didSet { updateDishes() }
     }
     
-    private lazy var backgroundView: UIView = {
-        let view = UIView()
-        
-        view.backgroundColor = UIColor(named: "MealViewBackgroundColor")
-        view.layer.cornerRadius = 12
-        
-        view.addSubview(dishesLabel)
-        dishesLabel.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor,
-                           paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-        dishesLabel.centerY(inView: view)
-        
-        return view
-    }()
-    
     private lazy var dishesLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -54,10 +40,15 @@ class MealView: UIView {
     // MARK: - Helpers
     
     func configureUI() {
-        addSubview(backgroundView)
-        backgroundView.setDimension(width: 320, height: 320)
-        backgroundView.centerX(inView: self)
-        backgroundView.centerY(inView: self)
+        setDimension(width: 320, height: 320)
+        layer.cornerRadius = 12
+        clipsToBounds = true
+        
+        addSubview(dishesLabel)
+        dishesLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor,
+                           paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
+        
+        backgroundColor = UIColor(named: "MealViewBackgroundColor")
     }
     
     func updateDishes() {

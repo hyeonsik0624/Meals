@@ -40,21 +40,21 @@ class SettingsController: UITableViewController {
     
     // MARK: - API
     
-    func saveSchoolInfo() {
+    private func saveSchoolInfo() {
         guard let school = school else { return }
         UserDefaults.standard.setValue(school.schoolCode, forKey: "schoolCode")
     }
     
     // MARK: - Helpers
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .secondarySystemBackground
         
         navigationItem.title = "설정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
     }
     
-    func configureTableView() {
+    private func configureTableView() {
         tableView.rowHeight = 68
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
@@ -70,7 +70,9 @@ extension SettingsController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: reuseIdentifier)
         cell.textLabel?.text = "학교 변경하기"
+        cell.textLabel?.font = .boldSystemFont(ofSize: 16)
         cell.detailTextLabel?.text = school?.schoolName
+        cell.detailTextLabel?.font = .systemFont(ofSize: 14, weight: .regular)
         cell.selectionStyle = .none
         cell.backgroundColor = .secondarySystemBackground
         return cell

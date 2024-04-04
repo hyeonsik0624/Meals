@@ -54,7 +54,7 @@ class SchoolSettingsController: UIViewController {
     
     // MARK: - Helpers
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .secondarySystemBackground
         
         view.addSubview(greetingLabel)

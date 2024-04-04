@@ -23,11 +23,15 @@ class HomeController: UIViewController {
         }
     }
     
-    private lazy var mealView: MealView = {
-        let frame = CGRect(x: 0, y: 0, width: 300, height: 300)
-        let mv = MealView(frame: frame)
-        return mv
+    private let schoolNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.text = "횡성고등학교"
+        label.textColor = .gray
+        return label
     }()
+    
+    private lazy var mealView = MealView()
     
     // MARK: - Lifecycle
     
@@ -35,9 +39,6 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureUI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         loadSavedSchoolInfo()
     }
     
@@ -55,7 +56,7 @@ class HomeController: UIViewController {
     
     // MARK: - API
     
-    func getMeal() {
+    private func getMeal() {
         guard let school = school else { return }
         
         let date = Date()
@@ -68,7 +69,7 @@ class HomeController: UIViewController {
         }
     }
     
-    func loadSavedSchoolInfo() {
+    private func loadSavedSchoolInfo() {
         guard let schoolCode = UserDefaults.standard.string(forKey: "schoolCode") else {
             let controller = SchoolSettingsController()
             controller.delegate = self
@@ -86,19 +87,27 @@ class HomeController: UIViewController {
     
     // MARK: - Helpers
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .secondarySystemBackground
         
         view.addSubview(mealView)
         mealView.centerX(inView: view)
         mealView.centerY(inView: view)
+        
+        view.addSubview(schoolNameLabel)
+        schoolNameLabel.anchor(bottom: mealView.topAnchor, right: mealView.rightAnchor)
     }
     
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = viewModel.getCurrentDateString()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingsButtonTapped))
+    }
+    
+    func updateHome() {
+        getMeal()
+        navigationItem.title = viewModel.getCurrentDateString()
     }
 }
 

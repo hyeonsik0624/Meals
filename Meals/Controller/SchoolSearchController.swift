@@ -41,14 +41,14 @@ class SchoolSearchController: UITableViewController {
     
     // MARK: - Helpers
     
-    func configureTableView() {
+    private func configureTableView() {
         view.backgroundColor = .secondarySystemBackground
         
         tableView.rowHeight = 60
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
     
-    func configureSearchController() {
+    private func configureSearchController() {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "검색"

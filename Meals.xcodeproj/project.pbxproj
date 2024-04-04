@@ -384,9 +384,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y54J7XTGV3;
+				DEVELOPMENT_TEAM = 2PDJ7M4UWU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Meals/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "급식";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -412,9 +414,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y54J7XTGV3;
+				DEVELOPMENT_TEAM = 2PDJ7M4UWU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Meals/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "급식";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
