@@ -12,8 +12,12 @@ struct MealService {
     
     let rootUrlString = "https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json&MMEAL_SC_CODE=2"
     
-    func getMeal(withSchoolInfo school: School, date: String, completion: @escaping (Meal?) -> Void) {
-        let urlString = rootUrlString + "&ATPT_OFCDC_SC_CODE=\(school.educationOfficeCode)&SD_SCHUL_CODE=\(school.schoolCode)&MLSV_YMD=\(date)"
+    func fetchMeal(withSchoolInfo school: School, date: Date, completion: @escaping (Meal?) -> Void) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let dateString = dateFormatter.string(from: date)
+        
+        let urlString = rootUrlString + "&ATPT_OFCDC_SC_CODE=\(school.educationOfficeCode)&SD_SCHUL_CODE=\(school.schoolCode)&MLSV_YMD=\(dateString)"
         guard let url = URL(string: urlString) else { return }
         let session = URLSession(configuration: .default)
         let request = URLRequest(url: url)

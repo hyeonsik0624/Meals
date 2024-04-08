@@ -39,7 +39,7 @@ class SettingsController: UITableViewController {
     }
     
     // MARK: - API
-    
+
     private func saveSchoolInfo() {
         guard let school = school else { return }
         UserDefaults.standard.setValue(school.schoolCode, forKey: "schoolCode")

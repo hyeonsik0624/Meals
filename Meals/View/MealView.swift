@@ -54,13 +54,23 @@ class MealView: UIView {
     func updateDishes() {
         guard let dishes = meal?.dishes else {
             DispatchQueue.main.async {
-                self.dishesLabel.text = "급식 정보가 없습니다."
+                UIView.animate(withDuration: 0.2) {
+                    self.dishesLabel.alpha = 0
+                    self.dishesLabel.text = "급식 정보가 없습니다."
+                    self.dishesLabel.alpha = 1
+                }
             }
+            
             return
         }
         
         DispatchQueue.main.async {
-            self.dishesLabel.text = dishes
+            UIView.animate(withDuration: 0.2) {
+                self.dishesLabel.alpha = 0
+                self.dishesLabel.text = dishes
+                self.dishesLabel.alpha = 1
+            }
+            
         }
     }
 }

@@ -33,6 +33,18 @@ class HomeController: UIViewController {
     
     private lazy var mealView = MealView()
     
+    private lazy var goToTodayButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("오늘 급식 보기", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        button.backgroundColor = .systemBlue
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(handleGoToTodayButtonTapped), for: .touchUpInside)
+        button.clipsToBounds = true
+        button.isHidden = true
+        return button
+    }()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -54,17 +66,35 @@ class HomeController: UIViewController {
         present(nav, animated: true)
     }
     
+    @objc func showNextDayMeal() {
+        guard let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: viewModel.currentDate) else { return }
+        viewModel.currentDate = nextDay
+        updateDateLabel()
+        updateGoToTodayButton()
+        getMeal(nextDay)
+    }
+    
+    @objc func showPreviousDayMeal() {
+        guard let previousDay = Calendar.current.date(byAdding: .day, value: -1, to: viewModel.currentDate) else { return }
+        viewModel.currentDate = previousDay
+        updateDateLabel()
+        updateGoToTodayButton()
+        getMeal(previousDay)
+    }
+    
+    @objc func handleGoToTodayButtonTapped() {
+        viewModel.currentDate = .now
+        updateDateLabel()
+        goToTodayButton.isHidden = viewModel.shouldHideGoToTodayButton
+        getMeal()
+    }
+    
     // MARK: - API
     
-    private func getMeal() {
+    private func getMeal(_ date: Date = Date()) {
         guard let school = school else { return }
         
-        let date = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMdd"
-        let today = dateFormatter.string(from: date)
-        
-        MealService.shared.getMeal(withSchoolInfo: school, date: today) { meal in
+        MealService.shared.fetchMeal(withSchoolInfo: school, date: date) { meal in
             self.meal = meal
         }
     }
@@ -96,18 +126,47 @@ class HomeController: UIViewController {
         
         view.addSubview(schoolNameLabel)
         schoolNameLabel.anchor(bottom: mealView.topAnchor, right: mealView.rightAnchor)
+        
+        view.addSubview(goToTodayButton)
+        goToTodayButton.setDimension(width: 120, height: 46)
+        goToTodayButton.layer.cornerRadius = 6
+        goToTodayButton.anchor(top: mealView.bottomAnchor, paddingTop: 24)
+        goToTodayButton.centerX(inView: view)
+        
+        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(showNextDayMeal))
+        leftSwipeGesture.direction = .left
+        view.addGestureRecognizer(leftSwipeGesture)
+        
+        let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(showPreviousDayMeal))
+        rightSwipeGesture.direction = .right
+        view.addGestureRecognizer(rightSwipeGesture)
     }
     
     private func configureNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = viewModel.getCurrentDateString()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingsButtonTapped))
     }
     
     func updateHome() {
         getMeal()
-        navigationItem.title = viewModel.getCurrentDateString()
+        updateDateLabel()
+    }
+    
+    func updateDateLabel() {
+        navigationItem.title = self.viewModel.getCurrentDateString()
+    }
+    
+    func updateGoToTodayButton() {
+        let currentIsHidden = goToTodayButton.isHidden
+        let shouldHide = viewModel.shouldHideGoToTodayButton
+        guard currentIsHidden != shouldHide else { return }
+        
+        UIView.animate(withDuration: 0.2) {
+            self.goToTodayButton.alpha = 0
+            self.goToTodayButton.isHidden = shouldHide
+            self.goToTodayButton.alpha = 1
+        }
     }
 }
 
