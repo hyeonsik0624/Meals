@@ -7,15 +7,9 @@
 
 import UIKit
 
-protocol SchoolSettingsControllerDelegate: AnyObject {
-    func didSetUpSchool(withSchool school: School)
-}
-
 class SchoolSettingsController: UIViewController {
     
     // MARK: - Properties
-    
-    weak var delegate: SchoolSettingsControllerDelegate?
     
     private let greetingLabel: UILabel = {
         let label = UILabel()
@@ -48,7 +42,6 @@ class SchoolSettingsController: UIViewController {
     
     @objc func settingsButtonTapped() {
         let controller = SchoolSearchController()
-        controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -67,14 +60,4 @@ class SchoolSettingsController: UIViewController {
                                    height: 56)
     }
     
-}
-
-// MARK: - SchoolSearchDelegate
-
-extension SchoolSettingsController: SchoolSearchDelegate {
-    func didSetUpSchool(_ controller: SchoolSearchController) {
-        guard let school = controller.selectedSchool else { return }
-        delegate?.didSetUpSchool(withSchool: school)
-        self.dismiss(animated: true)
-    }
 }

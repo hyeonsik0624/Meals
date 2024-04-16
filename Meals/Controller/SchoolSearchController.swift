@@ -7,8 +7,8 @@
 
 import UIKit
 
-protocol SchoolSearchDelegate: AnyObject {
-    func didSetUpSchool(_ controller: SchoolSearchController)
+protocol SchoolSearchControllerDelegaete: AnyObject {
+    func didUpdateSchool()
 }
 
 private let reuseIdentifier = "SchoolCell"
@@ -17,17 +17,9 @@ class SchoolSearchController: UITableViewController {
     
     // MARK: - Properties
     
-    weak var delegate: SchoolSearchDelegate?
+    weak var delegate: SchoolSearchControllerDelegaete?
     
-    private var schools = [School]() {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
-    var selectedSchool: School?
+    private var viewModel = SchoolViewModel.shared
     
     private let searchController = UISearchController(searchResultsController: nil)
     
@@ -52,8 +44,11 @@ class SchoolSearchController: UITableViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "검색"
-        navigationItem.searchController = searchController
         definesPresentationContext = true
+        searchController.hidesNavigationBarDuringPresentation = false
+        navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.becomeFirstResponder()
+        navigationItem.searchController = searchController
     }
 }
 
@@ -61,20 +56,25 @@ class SchoolSearchController: UITableViewController {
 
 extension SchoolSearchController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return schools.count
+        return viewModel.getSchoolList().count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: reuseIdentifier)
         cell.backgroundColor = .secondarySystemBackground
-        cell.textLabel?.text = schools[indexPath.row].schoolName
-        cell.detailTextLabel?.text = schools[indexPath.row].schoolAddress
+        cell.textLabel?.text = viewModel.getSchoolName(withIndex: indexPath.row)
+        cell.detailTextLabel?.text = viewModel.getSchoolAddress(withIndex: indexPath.row)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedSchool = schools[indexPath.row]
-        delegate?.didSetUpSchool(self)
+        viewModel.setSelectedSchool(withIndex: indexPath.row)
+        viewModel.updateSchoolList(withQuery: "") { return }
+        viewModel.saveSchoolInfo()
+        
+        navigationController?.dismiss(animated: true)
+        
+        NotificationCenter.default.post(name: .schoolDidUpdate, object: nil)
     }
 }
 
@@ -84,8 +84,10 @@ extension SchoolSearchController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
         
-        SchoolInfoService.shared.getSchools(withSchoolName: searchText) { schools in
-            self.schools = schools
+        viewModel.updateSchoolList(withQuery: searchText) {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
 }

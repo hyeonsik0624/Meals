@@ -16,13 +16,14 @@
 		B528049B2BA4831A00C5E430 /* MealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B528049A2BA4831A00C5E430 /* MealView.swift */; };
 		B528049D2BA4834900C5E430 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B528049C2BA4834900C5E430 /* Meal.swift */; };
 		B528049F2BA4841C00C5E430 /* MealService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B528049E2BA4841C00C5E430 /* MealService.swift */; };
-		B52804A12BA488C600C5E430 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804A02BA488C600C5E430 /* HomeViewModel.swift */; };
+		B52804A12BA488C600C5E430 /* MealViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804A02BA488C600C5E430 /* MealViewModel.swift */; };
 		B52804A32BA48B4900C5E430 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804A22BA48B4900C5E430 /* Extensions.swift */; };
 		B52804A72BA4A0F200C5E430 /* APIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804A62BA4A0F200C5E430 /* APIConfig.swift */; };
 		B52804A92BA4A2A700C5E430 /* SchoolInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804A82BA4A2A700C5E430 /* SchoolInfoService.swift */; };
 		B52804AB2BA4A34600C5E430 /* School.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804AA2BA4A34600C5E430 /* School.swift */; };
 		B52804AD2BA5781300C5E430 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804AC2BA5781300C5E430 /* SettingsController.swift */; };
 		B52804AF2BA5B51C00C5E430 /* SchoolSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52804AE2BA5B51C00C5E430 /* SchoolSearchController.swift */; };
+		B54265172BCD4692003F3463 /* SchoolViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54265162BCD4692003F3463 /* SchoolViewModel.swift */; };
 		B56501332BA5DF8A004AE42B /* SchoolSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56501322BA5DF8A004AE42B /* SchoolSettingsController.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,13 +39,14 @@
 		B528049A2BA4831A00C5E430 /* MealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealView.swift; sourceTree = "<group>"; };
 		B528049C2BA4834900C5E430 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
 		B528049E2BA4841C00C5E430 /* MealService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealService.swift; sourceTree = "<group>"; };
-		B52804A02BA488C600C5E430 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		B52804A02BA488C600C5E430 /* MealViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewModel.swift; sourceTree = "<group>"; };
 		B52804A22BA48B4900C5E430 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B52804A62BA4A0F200C5E430 /* APIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfig.swift; sourceTree = "<group>"; };
 		B52804A82BA4A2A700C5E430 /* SchoolInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolInfoService.swift; sourceTree = "<group>"; };
 		B52804AA2BA4A34600C5E430 /* School.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = School.swift; sourceTree = "<group>"; };
 		B52804AC2BA5781300C5E430 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		B52804AE2BA5B51C00C5E430 /* SchoolSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSearchController.swift; sourceTree = "<group>"; };
+		B54265162BCD4692003F3463 /* SchoolViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolViewModel.swift; sourceTree = "<group>"; };
 		B56501322BA5DF8A004AE42B /* SchoolSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSettingsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,7 +99,8 @@
 		B52804922BA480F800C5E430 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				B52804A02BA488C600C5E430 /* HomeViewModel.swift */,
+				B52804A02BA488C600C5E430 /* MealViewModel.swift */,
+				B54265162BCD4692003F3463 /* SchoolViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -222,9 +225,10 @@
 				B52804AD2BA5781300C5E430 /* SettingsController.swift in Sources */,
 				B528049D2BA4834900C5E430 /* Meal.swift in Sources */,
 				B528047F2BA47BAA00C5E430 /* AppDelegate.swift in Sources */,
-				B52804A12BA488C600C5E430 /* HomeViewModel.swift in Sources */,
+				B52804A12BA488C600C5E430 /* MealViewModel.swift in Sources */,
 				B56501332BA5DF8A004AE42B /* SchoolSettingsController.swift in Sources */,
 				B52804A32BA48B4900C5E430 /* Extensions.swift in Sources */,
+				B54265172BCD4692003F3463 /* SchoolViewModel.swift in Sources */,
 				B528049F2BA4841C00C5E430 /* MealService.swift in Sources */,
 				B52804A92BA4A2A700C5E430 /* SchoolInfoService.swift in Sources */,
 				B52804AF2BA5B51C00C5E430 /* SchoolSearchController.swift in Sources */,
@@ -394,6 +398,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -424,6 +429,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

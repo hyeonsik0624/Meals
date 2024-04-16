@@ -11,22 +11,12 @@ class HomeController: UIViewController {
     
     // MARK: - Properties
     
-    private var viewModel = HomeViewModel()
-    
-    private var school: School? {
-        didSet { getMeal() }
-    }
-    
-    private var meal: Meal? {
-        didSet {
-            mealView.meal = meal
-        }
-    }
+    private var mealViewModel = MealViewModel.shared
+    private var schoolViewModel = SchoolViewModel.shared
     
     private let schoolNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "횡성고등학교"
         label.textColor = .gray
         return label
     }()
@@ -49,17 +39,32 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViewModel()
         configureNavigationBar()
         configureUI()
-        loadSavedSchoolInfo()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(schoolDidUpdate), name: .schoolDidUpdate, object: nil)
+    }
+    
+    // MARK: - API
+    
+    func getMeal() {
+        guard let school = schoolViewModel.getSchoolData() else { return }
+        
+        mealViewModel.getMealData(school: school) { meal in
+            self.mealView.meal = meal
+        }
     }
     
     // MARK: - Actions
     
+    @objc func schoolDidUpdate() {
+        handleGoToTodayButtonTapped()
+        schoolNameLabel.text = schoolViewModel.getSchoolName()
+    }
+    
     @objc func settingsButtonTapped() {
         let controller = SettingsController()
-        controller.delegate = self
-        controller.school = self.school
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         
@@ -67,52 +72,26 @@ class HomeController: UIViewController {
     }
     
     @objc func showNextDayMeal() {
-        guard let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: viewModel.currentDate) else { return }
-        viewModel.currentDate = nextDay
+        guard let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: mealViewModel.currentDate) else { return }
+        mealViewModel.currentDate = nextDay
         updateDateLabel()
         updateGoToTodayButton()
-        getMeal(nextDay)
-    }
-    
-    @objc func showPreviousDayMeal() {
-        guard let previousDay = Calendar.current.date(byAdding: .day, value: -1, to: viewModel.currentDate) else { return }
-        viewModel.currentDate = previousDay
-        updateDateLabel()
-        updateGoToTodayButton()
-        getMeal(previousDay)
-    }
-    
-    @objc func handleGoToTodayButtonTapped() {
-        viewModel.currentDate = .now
-        updateDateLabel()
-        goToTodayButton.isHidden = viewModel.shouldHideGoToTodayButton
         getMeal()
     }
     
-    // MARK: - API
-    
-    private func getMeal(_ date: Date = Date()) {
-        guard let school = school else { return }
-        
-        MealService.shared.fetchMeal(withSchoolInfo: school, date: date) { meal in
-            self.meal = meal
-        }
+    @objc func showPreviousDayMeal() {
+        guard let previousDay = Calendar.current.date(byAdding: .day, value: -1, to: mealViewModel.currentDate) else { return }
+        mealViewModel.currentDate = previousDay
+        updateDateLabel()
+        updateGoToTodayButton()
+        getMeal()
     }
     
-    private func loadSavedSchoolInfo() {
-        guard let schoolCode = UserDefaults.standard.string(forKey: "schoolCode") else {
-            let controller = SchoolSettingsController()
-            controller.delegate = self
-            let nav = UINavigationController(rootViewController: controller)
-            nav.modalPresentationStyle = .fullScreen
-            present(nav, animated: true)
-            
-            return
-        }
-    
-        SchoolInfoService.shared.getSchool(withSchoolCode: schoolCode) { school in
-            self.school = school
-        }
+    @objc func handleGoToTodayButtonTapped() {
+        mealViewModel.currentDate = .now
+        updateDateLabel()
+        goToTodayButton.isHidden = mealViewModel.shouldHideGoToTodayButton
+        getMeal()
     }
     
     // MARK: - Helpers
@@ -151,15 +130,16 @@ class HomeController: UIViewController {
     func updateHome() {
         getMeal()
         updateDateLabel()
+        schoolNameLabel.text = schoolViewModel.getSchoolName()
     }
     
     func updateDateLabel() {
-        navigationItem.title = self.viewModel.getCurrentDateString()
+        navigationItem.title = self.mealViewModel.getCurrentDateString()
     }
     
     func updateGoToTodayButton() {
         let currentIsHidden = goToTodayButton.isHidden
-        let shouldHide = viewModel.shouldHideGoToTodayButton
+        let shouldHide = mealViewModel.shouldHideGoToTodayButton
         guard currentIsHidden != shouldHide else { return }
         
         UIView.animate(withDuration: 0.2) {
@@ -168,19 +148,16 @@ class HomeController: UIViewController {
             self.goToTodayButton.alpha = 1
         }
     }
-}
-
-// MARK: - SettingsControllerDelegate
-
-extension HomeController: SettingsControllerDelegate {
-    func handleDismissal(_ controller: SettingsController) {
-        controller.dismiss(animated: true)
-        self.school = controller.school
+    
+    func updateSchoolNameLabel() {
+        self.schoolNameLabel.text = schoolViewModel.getSelectedSchoolName()
     }
-}
-
-extension HomeController: SchoolSettingsControllerDelegate {
-    func didSetUpSchool(withSchool school: School) {
-        self.school = school
+    
+    func setupViewModel() {
+        schoolViewModel.loadSavedSchool {
+            DispatchQueue.main.async {
+                self.updateHome()
+            }
+        }
     }
 }

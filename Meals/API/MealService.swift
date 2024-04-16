@@ -8,7 +8,7 @@
 import Foundation
 
 struct MealService {
-    static let shared = MealService()
+    static var shared = MealService()
     
     let rootUrlString = "https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json&MMEAL_SC_CODE=2"
     
@@ -22,23 +22,23 @@ struct MealService {
         let session = URLSession(configuration: .default)
         let request = URLRequest(url: url)
         
-        session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            if let data = data {
-                do {
-                    let response = try JSONDecoder().decode(MealResponse.self, from: data)
-                    let meal = response.mealInfo.last?.row?.first
-                    completion(meal)
-                } catch {
-                    completion(nil)
+        DispatchQueue.global().async {
+            session.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
                 }
-            }
-        }.resume()
-        
+                
+                if let data = data {
+                    do {
+                        let response = try JSONDecoder().decode(MealResponse.self, from: data)
+                        let meal = response.mealInfo.last?.row?.first
+                        completion(meal)
+                    } catch {
+                        completion(nil)
+                    }
+                }
+            }.resume()
+        }
     }
-    
 }

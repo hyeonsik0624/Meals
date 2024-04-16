@@ -28,9 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        if let homeVC = window?.rootViewController?.children.first as? HomeController {
-            homeVC.updateHome()
-        }
+        
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -39,8 +37,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
+        MealService.shared = MealService()
+        
+        if let homeVC = window?.rootViewController?.children.first as? HomeController {
+            homeVC.updateHome()
+        }
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

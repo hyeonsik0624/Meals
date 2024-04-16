@@ -21,25 +21,28 @@ struct SchoolInfoService {
         
         let session = URLSession(configuration: .default)
         let request = URLRequest(url: url)
-        session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            if let data = data {
-                do {
-                    let schoolInfoResponse = try JSONDecoder().decode(SchoolResponce.self, from: data)
-                    
-                    if let school = schoolInfoResponse.schoolInfo.last?.row {
-                        schools.append(contentsOf: school)
+        
+        DispatchQueue.global().async {
+            session.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        let schoolInfoResponse = try JSONDecoder().decode(SchoolResponce.self, from: data)
+                        
+                        if let school = schoolInfoResponse.schoolInfo.last?.row {
+                            schools.append(contentsOf: school)
+                            completion(schools)
+                        }
+                    } catch {
                         completion(schools)
                     }
-                } catch {
-                    completion(schools)
                 }
-            }
-        }.resume()
+            }.resume()
+        }
     }
     
     func getSchool(withSchoolCode schoolCode: String, completion: @escaping (School?) -> Void) {
@@ -48,23 +51,26 @@ struct SchoolInfoService {
         
         let session = URLSession(configuration: .default)
         let request = URLRequest(url: url)
-        session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            if let data = data {
-                do {
-                    let schoolInfoResponse = try JSONDecoder().decode(SchoolResponce.self, from: data)
-                    
-                    if let school = schoolInfoResponse.schoolInfo.last?.row?.first {
-                        completion(school)
-                    }
-                } catch {
-                    completion(nil)
+        
+        DispatchQueue.global().async {
+            session.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
                 }
-            }
-        }.resume()
+                
+                if let data = data {
+                    do {
+                        let schoolInfoResponse = try JSONDecoder().decode(SchoolResponce.self, from: data)
+                        
+                        if let school = schoolInfoResponse.schoolInfo.last?.row?.first {
+                            completion(school)
+                        }
+                    } catch {
+                        completion(nil)
+                    }
+                }
+            }.resume()
+        }
     }
 }

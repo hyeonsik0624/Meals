@@ -7,21 +7,13 @@
 
 import UIKit
 
-protocol SettingsControllerDelegate: AnyObject {
-    func handleDismissal(_ controller: SettingsController)
-}
-
 private let reuseIdentifier = "SettingsCell"
 
 class SettingsController: UITableViewController {
     
     // MARK: - Properties
     
-    weak var delegate: SettingsControllerDelegate?
-    
-    var school: School? {
-        didSet { tableView.reloadData() }
-    }
+    private var viewModel = SchoolViewModel.shared
     
     // MARK: - Lifecycle
     
@@ -34,15 +26,7 @@ class SettingsController: UITableViewController {
     // MARK: - Actions
     
     @objc func handleDone() {
-        saveSchoolInfo()
-        delegate?.handleDismissal(self)
-    }
-    
-    // MARK: - API
-
-    private func saveSchoolInfo() {
-        guard let school = school else { return }
-        UserDefaults.standard.setValue(school.schoolCode, forKey: "schoolCode")
+        dismiss(animated: true)
     }
     
     // MARK: - Helpers
@@ -71,7 +55,7 @@ extension SettingsController {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: reuseIdentifier)
         cell.textLabel?.text = "학교 변경하기"
         cell.textLabel?.font = .boldSystemFont(ofSize: 16)
-        cell.detailTextLabel?.text = school?.schoolName
+        cell.detailTextLabel?.text = viewModel.getSelectedSchoolName()
         cell.detailTextLabel?.font = .systemFont(ofSize: 14, weight: .regular)
         cell.selectionStyle = .none
         cell.backgroundColor = .secondarySystemBackground
@@ -85,9 +69,11 @@ extension SettingsController {
     }
 }
 
-extension SettingsController: SchoolSearchDelegate {
-    func didSetUpSchool(_ controller: SchoolSearchController) {
-        self.school = controller.selectedSchool
-        controller.navigationController?.popViewController(animated: true)
+// MARK: - SchoolSearchControllerDelegaete
+
+extension SettingsController: SchoolSearchControllerDelegaete {
+    func didUpdateSchool() {
+        viewModel.saveSchoolInfo()
+        tableView.reloadData()
     }
 }
