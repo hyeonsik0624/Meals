@@ -64,7 +64,7 @@ class SchoolSettingsController: UIViewController {
         view.addSubview(settingsSchoolButton)
         settingsSchoolButton.centerX(inView: view)
         settingsSchoolButton.anchor(left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor,
-                                   paddingLeft: 20, paddingRight: 20,
+                                   paddingLeft: 20, paddingBottom: 10, paddingRight: 20,
                                    height: 56)
     }
     
