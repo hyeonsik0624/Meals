@@ -11,6 +11,8 @@ class SchoolSettingsController: UIViewController {
     
     // MARK: - Properties
     
+    private var viewModel = SchoolViewModel.shared
+    
     private let greetingLabel: UILabel = {
         let label = UILabel()
         label.text = "안녕하세요!\n먼저 학교를 설정해 주세요"
@@ -36,9 +38,15 @@ class SchoolSettingsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(schoolDidSet), name: .schoolDidUpdate, object: nil)
     }
     
     // MARK: - Actions
+    
+    @objc func schoolDidSet() {
+        viewModel.saveSchoolInfo()
+    }
     
     @objc func settingsButtonTapped() {
         let controller = SchoolSearchController()

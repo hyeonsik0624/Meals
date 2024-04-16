@@ -155,9 +155,19 @@ class HomeController: UIViewController {
     
     func setupViewModel() {
         schoolViewModel.loadSavedSchool {
+            self.shouldSetupSchool()
+            
             DispatchQueue.main.async {
                 self.updateHome()
             }
+        }
+    }
+    
+    func shouldSetupSchool() {
+        if schoolViewModel.getSchoolData() == nil {
+            let nav = UINavigationController(rootViewController: SchoolSettingsController())
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
         }
     }
 }

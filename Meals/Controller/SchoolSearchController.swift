@@ -7,21 +7,19 @@
 
 import UIKit
 
-protocol SchoolSearchControllerDelegaete: AnyObject {
-    func didUpdateSchool()
-}
-
 private let reuseIdentifier = "SchoolCell"
 
 class SchoolSearchController: UITableViewController {
     
     // MARK: - Properties
     
-    weak var delegate: SchoolSearchControllerDelegaete?
-    
     private var viewModel = SchoolViewModel.shared
     
     private let searchController = UISearchController(searchResultsController: nil)
+    
+    private var schoolList: [School] {
+        return viewModel.getSchoolList()
+    }
     
     // MARK: - Lifecycle
     
@@ -62,8 +60,8 @@ extension SchoolSearchController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: reuseIdentifier)
         cell.backgroundColor = .secondarySystemBackground
-        cell.textLabel?.text = viewModel.getSchoolName(withIndex: indexPath.row)
-        cell.detailTextLabel?.text = viewModel.getSchoolAddress(withIndex: indexPath.row)
+        cell.textLabel?.text = schoolList[indexPath.row].schoolName
+        cell.detailTextLabel?.text = schoolList[indexPath.row].schoolAddress
         return cell
     }
     
@@ -85,6 +83,8 @@ extension SchoolSearchController: UISearchResultsUpdating {
         guard let searchText = searchController.searchBar.text else { return }
         
         viewModel.updateSchoolList(withQuery: searchText) {
+            _ = self.schoolList
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }

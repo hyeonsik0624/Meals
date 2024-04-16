@@ -37,14 +37,9 @@ class SchoolViewModel {
         return schoolList ?? []
     }
     
-    func getSchoolName(withIndex index: Int? = nil) -> String {
-        if let index = index {
-            guard let schoolList = schoolList else { return "" }
-            return schoolList[index].schoolName
-        } else {
-            guard let school = selectedSchool else { return "" }
-            return school.schoolName
-        }
+    func getSchoolName() -> String {
+        guard let school = selectedSchool else { return "" }
+        return school.schoolName
     }
     
     func getSchoolAddress(withIndex index: Int) -> String {

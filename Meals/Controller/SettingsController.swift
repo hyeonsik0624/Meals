@@ -64,16 +64,6 @@ extension SettingsController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = SchoolSearchController()
-        controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
-    }
-}
-
-// MARK: - SchoolSearchControllerDelegaete
-
-extension SettingsController: SchoolSearchControllerDelegaete {
-    func didUpdateSchool() {
-        viewModel.saveSchoolInfo()
-        tableView.reloadData()
     }
 }
