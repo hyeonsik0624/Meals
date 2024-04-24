@@ -28,7 +28,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
+        if let lastActivateDate = getLastActivateDate() {
+            
+            if !Calendar.current.isDate(.now, inSameDayAs: lastActivateDate) {
+                DispatchQueue.main.async {
+                    if let homeVC = self.window?.rootViewController?.children.first as? HomeController {
+                        homeVC.currentDate = .now
+                        homeVC.updateHome()
+                    }
+                }
+            }
+        }
         
+        saveLastActiveDate()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -37,11 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        MealService.shared = MealService()
         
-        if let homeVC = window?.rootViewController?.children.first as? HomeController {
-            homeVC.updateHome()
-        }
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -50,6 +58,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+    func saveLastActiveDate() {
+        let date = Date()
+        
+        UserDefaults.standard.set(date, forKey: "lastActivateDate")
+    }
+    
+    func getLastActivateDate() -> Date? {
+        return UserDefaults.standard.object(forKey: "lastActivateDate") as? Date
+    }
 
 }
 

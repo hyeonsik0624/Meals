@@ -9,42 +9,42 @@ import Foundation
 
 struct MealViewModel {
     
-    static let shared = MealViewModel()
+    static var shared = MealViewModel()
     
     private var meal: Meal?
     
-    var currentDate = Date()
+    var shouldHideGoToTodayButton = true
     
     mutating func setMealData(_ meal: Meal) {
         self.meal = meal
     }
     
-    func getMealData(school: School, completion: @escaping (Meal?) -> Void) {
-        MealService.shared.fetchMeal(withSchoolInfo: school, date: currentDate) { mealData in
+    func getMealData(date: Date, school: School, completion: @escaping (Meal?) -> Void) {
+        MealService.shared.fetchMeal(withSchoolInfo: school, date: date) { mealData in
             guard let meal = mealData else { completion(nil); return }
             completion(meal)
         }
     }
     
-    func getCurrentDateString() -> String {
+    func getCurrentDateString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_KR")
         dateFormatter.dateFormat = "M월 d일 EEEE"
         
-        let dateString = dateFormatter.string(from: currentDate)
+        let dateString = dateFormatter.string(from: date)
         return dateString
     }
     
-    var shouldHideGoToTodayButton: Bool {
+    mutating func calculateShouldHideTodayButton(date: Date) {
         let calendar = Calendar.current
         
-        let result = calendar.compare(currentDate, to: .now, toGranularity: .day)
+        let result = calendar.compare(date, to: .now, toGranularity: .day)
         
         switch result {
         case .orderedSame:
-            return true
+            self.shouldHideGoToTodayButton = true
         default:
-            return false
+            self.shouldHideGoToTodayButton = false
         }
     }
 }

@@ -23,6 +23,8 @@ class HomeController: UIViewController {
     
     private lazy var mealView = MealView()
     
+    var currentDate = Date()
+    
     private lazy var goToTodayButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("오늘 급식 보기", for: .normal)
@@ -52,7 +54,7 @@ class HomeController: UIViewController {
     func getMeal() {
         guard let school = schoolViewModel.getSchoolData() else { return }
         
-        mealViewModel.getMealData(school: school) { meal in
+        mealViewModel.getMealData(date: currentDate, school: school) { meal in
             self.mealView.meal = meal
         }
     }
@@ -73,23 +75,23 @@ class HomeController: UIViewController {
     }
     
     @objc func showNextDayMeal() {
-        guard let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: mealViewModel.currentDate) else { return }
-        mealViewModel.currentDate = nextDay
+        guard let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: currentDate) else { return }
+        currentDate = nextDay
         updateDateLabel()
         updateGoToTodayButton()
         getMeal()
     }
     
     @objc func showPreviousDayMeal() {
-        guard let previousDay = Calendar.current.date(byAdding: .day, value: -1, to: mealViewModel.currentDate) else { return }
-        mealViewModel.currentDate = previousDay
+        guard let previousDay = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) else { return }
+        currentDate = previousDay
         updateDateLabel()
         updateGoToTodayButton()
         getMeal()
     }
     
     @objc func handleGoToTodayButtonTapped() {
-        mealViewModel.currentDate = .now
+        currentDate = .now
         updateDateLabel()
         goToTodayButton.isHidden = mealViewModel.shouldHideGoToTodayButton
         getMeal()
@@ -128,14 +130,15 @@ class HomeController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingsButtonTapped))
     }
     
-    func updateHome() {
+    @objc func updateHome() {
+        print(#function)
         getMeal()
         updateDateLabel()
         schoolNameLabel.text = schoolViewModel.getSchoolName()
     }
     
     func updateDateLabel() {
-        navigationItem.title = self.mealViewModel.getCurrentDateString()
+        navigationItem.title = self.mealViewModel.getCurrentDateString(date: currentDate)
     }
     
     func updateGoToTodayButton() {

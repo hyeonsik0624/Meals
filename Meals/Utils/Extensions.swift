@@ -75,4 +75,5 @@ extension UIColor {
 
 extension Notification.Name {
     static let schoolDidUpdate = Notification.Name("schoolDidUpdate")
+    static let dateDidUpdate = Notification.Name("dateDidUpdate")
 }
