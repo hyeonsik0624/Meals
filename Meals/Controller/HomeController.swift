@@ -93,6 +93,7 @@ class HomeController: UIViewController {
     @objc func handleGoToTodayButtonTapped() {
         currentDate = .now
         updateDateLabel()
+        mealViewModel.calculateShouldHideTodayButton(date: currentDate)
         goToTodayButton.isHidden = mealViewModel.shouldHideGoToTodayButton
         getMeal()
     }
@@ -141,6 +142,8 @@ class HomeController: UIViewController {
     }
     
     func updateGoToTodayButton() {
+        mealViewModel.calculateShouldHideTodayButton(date: currentDate)
+        
         let currentIsHidden = goToTodayButton.isHidden
         let shouldHide = mealViewModel.shouldHideGoToTodayButton
         guard currentIsHidden != shouldHide else { return }
