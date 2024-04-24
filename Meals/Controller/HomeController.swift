@@ -131,7 +131,6 @@ class HomeController: UIViewController {
     }
     
     @objc func updateHome() {
-        print(#function)
         getMeal()
         updateDateLabel()
         schoolNameLabel.text = schoolViewModel.getSchoolName()
