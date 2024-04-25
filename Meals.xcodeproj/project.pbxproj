@@ -397,7 +397,7 @@
 				DEVELOPMENT_TEAM = 2PDJ7M4UWU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Meals/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "급식";
+				INFOPLIST_KEY_CFBundleDisplayName = "현식 급식";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -409,11 +409,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-<<<<<<< HEAD
-				MARKETING_VERSION = 1.0.2;
-=======
-				MARKETING_VERSION = 1.0.3;
->>>>>>> develop
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.hyeonsik.Meals;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -432,7 +428,7 @@
 				DEVELOPMENT_TEAM = 2PDJ7M4UWU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Meals/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "급식";
+				INFOPLIST_KEY_CFBundleDisplayName = "현식 급식";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -444,11 +440,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-<<<<<<< HEAD
-				MARKETING_VERSION = 1.0.2;
-=======
-				MARKETING_VERSION = 1.0.3;
->>>>>>> develop
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.hyeonsik.Meals;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
