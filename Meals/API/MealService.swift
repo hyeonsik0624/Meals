@@ -10,14 +10,19 @@ import Foundation
 struct MealService {
     static var shared = MealService()
     
-    let rootUrlString = "https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json&MMEAL_SC_CODE=2"
+    let rootUrlString = "https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json"
     
-    func fetchMeal(withSchoolInfo school: School, date: Date, completion: @escaping (Meal?) -> Void) {
+    func fetchMeal(schoolInfo school: School, date: Date, type: Int? = 2, completion: @escaping (Meal?) -> Void) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
         let dateString = dateFormatter.string(from: date)
         
-        let urlString = rootUrlString + "&ATPT_OFCDC_SC_CODE=\(school.educationOfficeCode)&SD_SCHUL_CODE=\(school.schoolCode)&MLSV_YMD=\(dateString)"
+        var urlString = rootUrlString + "&ATPT_OFCDC_SC_CODE=\(school.educationOfficeCode)&SD_SCHUL_CODE=\(school.schoolCode)&MLSV_YMD=\(dateString)"
+        
+        if let type = type {
+            urlString += "&MMEAL_SC_CODE=\(String(type))"
+        }
+        
         guard let url = URL(string: urlString) else { return }
         let session = URLSession(configuration: .default)
         let request = URLRequest(url: url)

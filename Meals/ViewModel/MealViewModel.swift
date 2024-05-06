@@ -19,8 +19,8 @@ struct MealViewModel {
         self.meal = meal
     }
     
-    func getMealData(date: Date, school: School, completion: @escaping (Meal?) -> Void) {
-        MealService.shared.fetchMeal(withSchoolInfo: school, date: date) { mealData in
+    func getMealData(date: Date, school: School, type: Int?, completion: @escaping (Meal?) -> Void) {
+        MealService.shared.fetchMeal(schoolInfo: school, date: date, type: type) { mealData in
             guard let meal = mealData else { completion(nil); return }
             completion(meal)
         }
